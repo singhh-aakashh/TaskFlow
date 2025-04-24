@@ -1,3 +1,4 @@
+"use client"
 import { watchGmail } from "@/actions/watch-gmail";
 import { useEffect } from "react";
 
