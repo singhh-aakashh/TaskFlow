@@ -28,7 +28,7 @@ interface FlowState {
   setActionData:(nodeId:string,data:string)=>void;
 }
 
-interface Node {
+export interface Node {
   dbId:string;
   id: string;
   data: {

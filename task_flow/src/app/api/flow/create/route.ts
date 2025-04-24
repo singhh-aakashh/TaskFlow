@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../prisma";
-import { v4 as uuidv4 } from 'uuid';
 
-let a:number = 10
 
-export async function POST(req:NextRequest,res:NextResponse) {
+export async function POST(req:NextRequest) {
     try {
         const body = await req.json();
         const { id, name, userId, active, nodes, edges } = body;

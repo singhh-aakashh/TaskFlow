@@ -8,16 +8,14 @@ import {
 } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { CopyPlus, Trash2 } from 'lucide-react'
-// import { deleteZap } from '@/lib/database'
-// import { useToast } from '@/hooks/use-toast'
-import { useRouter } from 'next/navigation'
+import { Node } from '@/lib/store/flowStore'
+
 
 type Props = {
   name: string,
   flowId:string,
-  nodes:any,
+  nodes:Node[],
   isActive:boolean
 }
 
@@ -27,8 +25,7 @@ const FlowCard = ({
   nodes,
   isActive
 }: Props) => {
-  const router = useRouter();
-  const [isdisable,setIsdisable]=useState<boolean>(false)
+  const [isdisable]=useState<boolean>(false)
   const webhookUrl = `https://processor_task-flow.medium-backend-api.workers.dev/hook/${flowId}`
     const [toggle,setToggle]=useState<boolean>(isActive)
     
@@ -54,8 +51,8 @@ const FlowCard = ({
       <CardHeader className="flex flex-col gap-4">
         <div className="flex flex-row gap-2">
             {
-                nodes?.map((node:any)=>
-                    <img
+                nodes?.map((node:Node)=>
+                    <img key={node.id}
                     src={node?.id==="1" ? node?.trigger?.img:node?.action?.img}
                     alt={node.data.label}
                     className="object-contain h-11 w-11"
