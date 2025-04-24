@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  flows         Flow[]
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+ 
+}
+
+
+model Node {
+  dbId String @id
+  id String 
+  data Json
+  trigger Trigger?
+  action Action?
+  position Position?
+  type String
+  flowId String
+  flow  Flow  @relation(fields: [flowId], references: [id])
+}
+
+model Trigger {
+  id     String @id @default(cuid())
+  name   String
+  img    String
+  data   String?
+  nodeId String @unique
+  node   Node   @relation(fields: [nodeId], references: [dbId])
+}
+
+model Action {
+  id     String @id @default(cuid())
+  name   String
+  img    String
+  data   String?
+  nodeId String @unique
+  node   Node   @relation(fields: [nodeId], references: [dbId])
+}
+
+model Position {
+  id     String @id @default(uuid())
+  x       Int
+  y       Int
+  nodeId String @unique
+  node   Node   @relation(fields: [nodeId], references: [dbId])
+}
+
+model Edge {
+  dbId String @id @default(cuid())
+  id String 
+  source String
+  target String
+  animated Boolean
+  flowId String
+  flow Flow @relation(fields: [flowId],references: [id])
+}
+
+model Flow {
+  id        String  @id 
+  name      String?
+  userId    String
+  user      User  @relation(fields: [userId],references: [id])
+  nodes     Node[]
+  edges     Edge[]
+  active    Boolean
+}
+
+model EmailTemplate {
+  id String @id @default(cuid())
+  emailTemplate String
+  templateVariables  Json?
+  img  String
+}
+
