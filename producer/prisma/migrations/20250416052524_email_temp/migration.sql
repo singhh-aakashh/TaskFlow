@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Action" ALTER COLUMN "data" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "Trigger" ALTER COLUMN "data" SET DATA TYPE TEXT;
